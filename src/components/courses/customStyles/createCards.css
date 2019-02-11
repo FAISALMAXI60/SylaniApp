@@ -1,0 +1,104 @@
+.admitCard{
+    width: 48%;
+    height: 470px;
+    border: 1px solid black;
+    display: inline-block;
+    margin-bottom: 10px;
+    padding-top: 10px;
+}
+.admitCard {
+    margin-right: 10px;
+}
+.headerText{
+    font-size: x-large;
+}
+.admitCardHeader{
+    display: flex;
+}
+.admitCardContent{
+    display: flex;
+}
+.textDataDiv{
+    width: 70%;
+    height: 377px;
+    border: 1px solid black;
+    margin: 10px 5px 0px 5px;
+    font-weight: 600;
+    font-size: x-large;
+}
+.imageAndQrDiv{
+    width: 30%;
+    height: 395px;
+    margin: 10px 5px 0px 0px;
+}
+
+.textDataHeader{
+    background: #0066b3 !important;
+    -webkit-print-color-adjust: exact;
+    color: white;
+    height: 65px;
+    padding: 15px 0px;
+    border-bottom: 1px solid #0066b3;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.studentImageDiv{
+    width: 100%;
+    margin-bottom: 3px;
+}
+
+.qrDiv{
+    width: 100%;
+    height: 155px;
+    /* border: 1px solid black; */
+}
+
+.fields{
+    display: inline-block;
+    text-align: left;
+    margin-right: 15px;
+}
+.fields:nth-child(2){
+    width: 68%;
+}
+.fields-inner-heading{
+    margin-top: 23px;
+}
+.fields-inner-value{
+    margin-top: 23px;
+    border-bottom: 1px solid black;
+}
+.textFieldsMainDiv{
+    text-align: left;
+    margin-left: 20px;
+}
+
+.authorizedSignDiv{
+    text-align: left;
+    margin-left: 20px;
+    margin-top: 23px;
+}
+
+.authorizedSignValue{
+    display: inline-block;
+    margin-right: 15px;
+    border-bottom: 1px solid black;
+    width:43%;
+}
+.btnsForNextPreviousPrint{
+    text-align: right;
+    margin-right: 10%;
+    margin-bottom: 5px;
+    /* margin-top: 5px; */
+}
+
+.btnsForNextPreviousPrint button:nth-child(-n + 2) {
+    margin-right: 5px;
+}
+
+@media print {
+    .hidden-print {
+        display :  none;
+    }
+}

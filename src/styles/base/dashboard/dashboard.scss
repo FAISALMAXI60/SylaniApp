@@ -1,0 +1,40 @@
+.outerEffect {
+  border: none;
+  color: black;
+  transition: 0.2s;
+}
+
+.outerEffect:hover {
+  background-color: white;
+  border-radius: inherit;
+}
+
+a:hover {
+  color: black;
+  text-decoration: none;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.shadowBackground {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transition: 0.3s;
+}
+
+.shadowBackground:hover {
+  background: white;
+  box-shadow: 0 4px 8px 0 #ced4da, 0 6px 20px 0 #585858;
+}
+
+@media screen and (max-width: 600px) {
+  .card {
+    margin-top: 3px !important;
+  }
+
+  .m-3 {
+    margin: 0rem !important;
+  }
+}
