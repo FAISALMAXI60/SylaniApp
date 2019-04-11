@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import LoadingScreen from '../loadingScreen';
-
 var className, batchName, courseName, sectionName;
 class EliminatedStudents extends React.Component {
     constructor() {
@@ -44,7 +43,7 @@ class EliminatedStudents extends React.Component {
             });
     }
     render() {
-        if(this.state.loading){
+        if (this.state.loading) {
             return <LoadingScreen />
         }
         return (
@@ -131,7 +130,7 @@ class EliminatedStudents extends React.Component {
                                     <div className="card">
                                         <div className="card-body outerEffect">
                                             <h5 className="h3">Status</h5>
-                                            <p className="card-text">{Obj.status}</p>
+                                            <p className="card-text" style="">{Obj.status}</p>
                                         </div>
                                     </div>
                                 </div>

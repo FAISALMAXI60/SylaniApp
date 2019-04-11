@@ -132,7 +132,7 @@ class AddBatch extends React.Component {
                             <MenuItem value="Completed" primaryText="Completed" />
                         </SelectField>
                     </div>
-                    <div className="row h-100 justify-content-center align-items-center">
+                    {/* <div className="row h-100 justify-content-center align-items-center">
                         <TextField
                             floatingLabelText="Enter Batch Teacher 1"
                             floatingLabelStyle={styles.floatingLabelFocusStyle}
@@ -152,7 +152,7 @@ class AddBatch extends React.Component {
                             floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                             type="text"
                         />
-                    </div>
+                    </div> */}
                     <div className="row h-100 justify-content-center align-items-center">
                         <button id='addBtn'  type="submit" className="btn btn-outline-success btn-lg text-center m-5">Add Batch</button>
                         <button className="btn btn-outline-success btn-lg text-center m-5" onClick={() => this.props.history.goBack()}>Cancel</button>

@@ -17,11 +17,11 @@ class AddCourse extends React.Component {
     };
     notify = () => {
         toast.success("Course Added Successfully!", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 2000 
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 2000
         });
-    
-      }
+
+    }
     handleChange = (event, index, value) => this.setState({ value })
     addCourseFormHandler = (e) => {
         e.preventDefault();
@@ -30,12 +30,12 @@ class AddCourse extends React.Component {
         let courseStartDate = e.target.elements[1].value;
         let courseEndDate = e.target.elements[2].value;
         let courseNote = e.target.elements[3].value;
-        let courseTeacher1 = e.target.elements[6].value;
-        let courseTeacher2 = e.target.elements[7].value;
-        let courseTeacher3 = e.target.elements[8].value;
-        let teachers = [courseTeacher1, courseTeacher2, courseTeacher3];
-        teachers = JSON.stringify(teachers);
-        if (!courseTitle || !courseStartDate || !courseEndDate || !courseTeacher1) {
+        // let courseTeacher1 = e.target.elements[6].value;
+        // let courseTeacher2 = e.target.elements[7].value;
+        // let courseTeacher3 = e.target.elements[8].value;
+        // let teachers = [courseTeacher1, courseTeacher2, courseTeacher3];
+        // teachers = JSON.stringify(teachers);
+        if (!courseTitle || !courseStartDate || !courseEndDate) {
             return document.getElementById("errorAlertDiv").style.display = 'block';
         }
         let status = this.state.value;
@@ -43,28 +43,28 @@ class AddCourse extends React.Component {
         document.getElementById("errorAlertDiv").style.display = 'none';
         axios.post(`/course/add`, {
             courseTitle, courseStartDate, courseEndDate, link,
-            courseNote, teachers, status, createdAt
+            courseNote, status, createdAt
         })
-        .then((response) => {
-            let self = this;
-            if (response.data.errors) {
-                let errorMessage = response.data.errors.note.stringValue;
-                document.getElementById("errorAlertDiv").style.display = 'block';
-                return document.getElementById("errorAlertDiv").innerText = `Error In ${errorMessage}`;
-            }
-            this.notify();
-            // document.getElementById('addBtn').removeAttribute('disabled');
-            setTimeout(()=>{
-                self.props.history.push('/course');
-            },2000);
-            
-        })
-        .catch((err) => {
-            alert(err);
-        });
-        document.getElementById('addBtn').setAttribute('disabled','true');
+            .then((response) => {
+                let self = this;
+                if (response.data.errors) {
+                    let errorMessage = response.data.errors.note.stringValue;
+                    document.getElementById("errorAlertDiv").style.display = 'block';
+                    return document.getElementById("errorAlertDiv").innerText = `Error In ${errorMessage}`;
+                }
+                this.notify();
+                // document.getElementById('addBtn').removeAttribute('disabled');
+                setTimeout(() => {
+                    self.props.history.push('/course');
+                }, 2000);
+
+            })
+            .catch((err) => {
+                alert(err);
+            });
+        document.getElementById('addBtn').setAttribute('disabled', 'true');
     }
-    
+
     render() {
         return (
             <div className="container-fluid">
@@ -94,10 +94,10 @@ class AddCourse extends React.Component {
                         />
                     </div>
                     <div className="row h-100 justify-content-center align-items-center">
-                        <DatePicker className='materialDatePicker' placeholder="Course Start Date" mode="landscape" required={true}/>
+                        <DatePicker className='materialDatePicker' placeholder="Course Start Date" mode="landscape" required={true} />
                     </div>
                     <div className="row h-100 justify-content-center align-items-center">
-                        <DatePicker placeholder="Course End Date" mode="landscape" required={true}/>
+                        <DatePicker placeholder="Course End Date" mode="landscape" required={true} />
                     </div>
                     <div className="row h-100 justify-content-center align-items-center">
                         <TextField
@@ -121,7 +121,7 @@ class AddCourse extends React.Component {
                         </SelectField>
                     </div>
 
-                    <div className="row h-100 justify-content-center align-items-center">
+                    {/* <div className="row h-100 justify-content-center align-items-center">
                         <TextField
                             floatingLabelText="Enter Course Teacher 1"
                             floatingLabelStyle={styles.floatingLabelFocusStyle}
@@ -141,7 +141,7 @@ class AddCourse extends React.Component {
                             floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
                             type="text"
                         />
-                    </div>
+                    </div> */}
                     <div className="row h-100 justify-content-center align-items-center">
                         <button id='addBtn' type="submit" className="btn btn-outline-success btn-lg text-center m-5">Add Course</button>
                         <button className="btn btn-outline-success btn-lg text-center m-5" onClick={() => this.props.history.goBack()}>Cancel</button>

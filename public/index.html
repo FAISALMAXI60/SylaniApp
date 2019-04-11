@@ -22,7 +22,7 @@
     -->
   <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <title>SSMS</title>
   <style>
     /* @vikttor_  */
@@ -140,23 +140,23 @@
   </main>
   
   <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
+    This HTML file is a template.
+    If you open it directly in the browser, you will see an empty page.
+    
+    You can add webfonts, meta tags, or analytics to this file.
+    The build step will place the bundled scripts into the <body> tag.
+      
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-</body>
-<script>
-  let Strut = {
-    random: function (e, t) {
-      return Math.random() * (t - e) + e;
-    },
-    arrayRandom: function (e) {
-      return e[Math.floor(Math.random() * e.length)];
+  </body>
+  <script>
+    let Strut = {
+      random: function (e, t) {
+        return Math.random() * (t - e) + e;
+      },
+      arrayRandom: function (e) {
+        return e[Math.floor(Math.random() * e.length)];
     },
     interpolate: function (e, t, n) {
       return e * (1 - n) + t * n;
@@ -175,39 +175,39 @@
     }
   };
   const reduceMotion = matchMedia("(prefers-reduced-motion)").matches;
-
+  
   {
     // =======
     // helpers
     // =======
-
+    
     const setState = (state, speed) =>
-      directions.forEach(axis => {
-        state[axis] += speed[axis];
+    directions.forEach(axis => {
+      state[axis] += speed[axis];
         if (Math.abs(state[axis]) < 360) return;
         const max = Math.max(state[axis], 360);
         const min = max == 360 ? Math.abs(state[axis]) : 360;
         state[axis] = max - min;
       });
-
-    const cubeIsHidden = left => left > parentWidth + 30;
-
-
-    // =================
-    // shared references
-    // =================
-
+      
+      const cubeIsHidden = left => left > parentWidth + 30;
+      
+      
+      // =================
+      // shared references
+      // =================
+      
     let headerIsHidden = false;
-
+    
     const template = document.getElementById("cube-template");
 
     const parent = document.getElementById("header-hero");
     const getParentWidth = () => parent.getBoundingClientRect().width;
     let parentWidth = getParentWidth();
     window.addEventListener("resize", () => parentWidth = getParentWidth());
-
+    
     const directions = ["x", "y"];
-
+    
     const palette = {
       white: {
         color: [255, 255, 255],
@@ -478,4 +478,7 @@
       document.getElementsByTagName('main')[0].remove();
     }
   </script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+
 </html>

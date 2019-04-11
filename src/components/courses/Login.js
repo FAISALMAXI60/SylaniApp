@@ -14,7 +14,7 @@ class Login extends React.Component {
     }
     loginHandler = () => {
         let code = document.getElementById('code').value;
-        if (code == '1@a2@b') {
+        if (code == '12') {
             this.success();
             let self = this;
             setTimeout(() => {
@@ -47,7 +47,7 @@ class Login extends React.Component {
                 </div>
                 <div className="form-group row h-100 justify-content-center align-items-center mt-5">
                     <label htmlFor="code">Enter Code</label>
-                    <input type="password" className="form-control m-3" required id="code" aria-describedby="helperText" placeholder="Enter Code" />
+                    <input type="password" className="form-control m-3" required id="code" aria-describedby="helperText" value="12" />
                     <small id="helperText" className="form-text text-muted">Enter Code Or Contact Office To Get Code.</small>
                 </div>
                 <div className='row h-100 justify-content-center align-items-center'>

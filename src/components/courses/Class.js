@@ -44,7 +44,7 @@ class Class extends React.Component {
     console.log(classId)
     axios
       .post(`/course/batch/class/remove`, { classId })
-      .then(function(response) {
+      .then(function (response) {
         let dataArray = self.state.dataArray.filter(Obj => Obj._id !== classId);
         self.setState(() => ({
           dataArray: dataArray,
@@ -53,7 +53,7 @@ class Class extends React.Component {
         }));
         self.notify();
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
@@ -74,13 +74,13 @@ class Class extends React.Component {
       .post(`/course/batch/class`, {
         batchId
       })
-      .then(function(response) {
+      .then(function (response) {
         self.setState(() => ({
           dataArray: response.data,
           loading: false
         }));
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   }
@@ -131,124 +131,91 @@ class Class extends React.Component {
             </div>
           </div>
         ) : (
-          this.state.dataArray.map((Obj, index) => {
-            return (
-              <div className="card m-3 p-3 text-center" key={index}>
-                <div className="card-header bg-white text-dark rounded">
-                  <Link
-                    to={{
-                      pathname: `${Obj.link}`,
-                      name: `${JSON.stringify(Obj)}`,
-                      state: { fromDashboard: true }
-                    }}
-                  >
-                    <h1 className="text-dark display-3 font-weight-bold">
-                      {Obj.name}
-                    </h1>
-                  </Link>
-                  <Link
-                    to={{
-                      pathname: `/${Obj.name}/details`,
-                      name: `${JSON.stringify(Obj)}`,
-                      state: { fromDashboard: true }
-                    }}
-                  >
-                    <button
-                      type="button"
-                      className="btn btn-outline-success btn-lg"
-                    >
-                      Details
-                    </button>
-                  </Link>
-                  <Link
-                    to={{
-                      pathname: `/${Obj.name}/edit`,
-                      name: `${JSON.stringify(Obj)}`,
-                      state: { fromDashboard: true }
-                    }}
-                  >
-                    <button
-                      type="button"
-                      className="btn btn-outline-success btn-lg ml-2"
-                    >
-                      Edit
-                    </button>
-                  </Link>
-                  <Button
-                    type="danger"
-                    className="btn btn-outline-danger btn-lg ml-2"
-                    onClick={() => this.showModal(Obj._id)}
-                    id="delBtn"
-                  >
-                    Delete
-                  </Button>
-                </div>
-                <div className="card-body m-2">
-                  <div className="row  m-2">
-                    <div className="col-sm-6">
-                      <div className="card">
-                        <div className="card-body outerEffect">
-                          <h5 className="h3">Total Students</h5>
-                          <p className="card-text">
-                            {Obj.students ? Obj.students.length : "None"}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-sm-6">
-                      <div className="card">
-                        <div className="card-body outerEffect">
-                          <h5 className="h3">Total Sections</h5>
-                          <p className="card-text">
-                            {Obj.sections ? Obj.sections.length : 0}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row m-2">
-                    <div className="col-sm-6">
-                      <div className="card">
-                        <div className="card-body outerEffect">
-                          <h5 className="h3">Status</h5>
-                          <p className="card-text">{Obj.status}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-sm-6">
-                      <div className="card">
-                        <div className="card-body outerEffect">
-                          <h5 className="h3">Created At</h5>
-                          <p className="card-text">{Obj.createdAt}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="card-footer bg-light text-success rounded">
-                  <div className="row  m-2">
-                    <div className="col-sm-6">
-                      <div className="card">
-                        <div className="card-body outerEffect">
-                          <h5 className="h3">Start Date</h5>
-                          <p className="card-text">{Obj.startDate}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-sm-6">
-                      <div className="card">
-                        <div className="card-body outerEffect">
-                          <h5 className="h3">End Date</h5>
-                          <p className="card-text">{Obj.endDate}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })
-        )}
+            this.state.dataArray.map((Obj, index) => {
+              return (
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Class</th>
+                      <th>Total Students</th>
+                      <th>Total Sections</th>
+                      <th>Status</th>
+                      <th>Created At</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+
+                      <td>
+                        <Link
+                          to={{
+                            pathname: `${Obj.link}`,
+                            name: `${JSON.stringify(Obj)}`,
+                            state: {
+                              fromDashboard: true
+                            }
+                          }}
+                        >
+                          {Obj.name}
+                        </Link>
+                      </td>
+                      <td>{Obj.students ? Obj.students.length : "None"}</td>
+                      <td>{Obj.sections ? Obj.sections.length : 0}</td>
+                      <td>{Obj.status}</td>
+                      <td>{Obj.createdAt}</td>
+                      <td>{Obj.startDate}</td>
+                      <td>{Obj.endDate}</td>
+                      <td>
+                        <Link
+                          to={{
+                            pathname: `/${Obj.name}/details`,
+                            name: `${JSON.stringify(Obj)}`,
+                            state: {
+                              fromDashboard: true
+                            }
+                          }}
+                        >
+                          <button
+                            type="button"
+                            className="btn btn-outline-success btn-lg"
+                          >
+                            Details
+                          </button>
+                        </Link>
+                        <Link
+                          to={{
+                            pathname: `/${Obj.name}/edit`,
+                            name: `${JSON.stringify(Obj)}`,
+                            state: {
+                              fromDashboard: true
+                            }
+                          }}
+                        >
+                          <button
+                            type="button"
+                            className="btn btn-outline-success btn-lg ml-2"
+                          >
+                            Edit
+                          </button>
+                        </Link>
+                        <Button
+                          type="danger"
+                          className="btn btn-outline-danger btn-lg ml-2"
+                          onClick={() => this.showModal(Obj)}
+                          id="delBtn"
+                        >
+                          Delete
+                        </Button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              );
+            })
+          )}
       </div>
     );
   }

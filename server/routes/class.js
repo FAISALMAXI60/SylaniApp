@@ -6,27 +6,34 @@ let { ClassModel } = require('../db/classModel');
 let { SectionModel } = require("../db/sectionModel");
 let { StudentModel } = require("../db/studentModel");
 
+router.post('/all', (req, res) => {
+    let relatedBatch = req.body.relatedBatch;
+    ClassModel.find({ relatedBatch: relatedBatch }).populate('sections').exec((err, result) => {
+        if (err) res.json(err);
+        res.json(result);
+    });
+});
 
 router.post('/', (req, res) => {
     let relatedBatch = req.body.batchId;
-    ClassModel.find({ relatedBatch: relatedBatch }).populate('relatedCourse relatedBatch sections students').exec((err,result)=>{
-        if(err) res.json(err);
+    ClassModel.find({ relatedBatch: relatedBatch }).populate('relatedCourse relatedBatch sections students').exec((err, result) => {
+        if (err) res.json(err);
         res.json(result);
     });
 });
 router.post("/remove", (req, res) => {
 
-      ClassModel.deleteMany({
+    ClassModel.deleteMany({
         _id: req.body.classId
-      })
-      .then(classes => SectionModel.deleteMany({
-        relatedClass: req.body.classId
-      }))
-      .then(section => StudentModel.deleteMany({
-        relatedClass: req.body.classId
-      }))
-      .then(student => res.json('delOK'))
-      .catch(err => res.json(err));
+    })
+        .then(classes => SectionModel.deleteMany({
+            relatedClass: req.body.classId
+        }))
+        .then(section => StudentModel.deleteMany({
+            relatedClass: req.body.classId
+        }))
+        .then(student => res.json('delOK'))
+        .catch(err => res.json(err));
 });
 router.post('/add', (req, res) => {
 

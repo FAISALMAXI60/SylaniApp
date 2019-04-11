@@ -22,8 +22,8 @@ let {
 router.post("/", (req, res) => {
   let relatedSection = req.body.sectionId;
   StudentModel.find({
-      relatedSection: relatedSection
-    })
+    relatedSection: relatedSection
+  })
     .populate("relatedCourse relatedBatch relatedClass relatedSection")
     .exec((err, result) => {
       if (err) res.json(err);
@@ -32,16 +32,16 @@ router.post("/", (req, res) => {
 });
 router.post("/remove", (req, res) => {
   StudentModel.findOneAndRemove({
-      _id: req.body.studentId
-    })
+    _id: req.body.studentId
+  })
     .then(student => res.json(student))
     .catch(err => res.json(err));
 });
 router.post("/add", (req, res) => {
   StudentModel.find({
-      cnic: req.body.cnic,
-      status: "Active"
-    })
+    cnic: req.body.cnic,
+    status: "Active"
+  })
     .populate("relatedCourse")
     .exec((err, result) => {
       if (err) res.json(err);
@@ -50,7 +50,7 @@ router.post("/add", (req, res) => {
           error: "Already In Two Course",
           relatedCourses: `Course One: ${
             result[0].relatedCourse[0].name
-          }, Course Two: ${result[1].relatedCourse[0].name}`
+            }, Course Two: ${result[1].relatedCourse[0].name}`
         });
       } else {
         BlackListModal.find({
@@ -82,8 +82,8 @@ router.post("/add", (req, res) => {
             newStudent.save((err, student) => {
               if (err) res.json(err);
               var course = CourseModel.findByIdAndUpdate({
-                  _id: req.body.relatedCourse
-                }, {
+                _id: req.body.relatedCourse
+              }, {
                   $push: {
                     students: student._id
                   }
@@ -93,8 +93,8 @@ router.post("/add", (req, res) => {
                 }
               );
               var batch = BatchModel.findByIdAndUpdate({
-                  _id: req.body.relatedBatch
-                }, {
+                _id: req.body.relatedBatch
+              }, {
                   $push: {
                     students: student._id
                   }
@@ -104,8 +104,8 @@ router.post("/add", (req, res) => {
                 }
               );
               var classes = ClassModel.findByIdAndUpdate({
-                  _id: req.body.relatedClass
-                }, {
+                _id: req.body.relatedClass
+              }, {
                   $push: {
                     students: student._id
                   }
@@ -115,8 +115,8 @@ router.post("/add", (req, res) => {
                 }
               );
               var section = SectionModel.findByIdAndUpdate({
-                  _id: req.body.relatedSection
-                }, {
+                _id: req.body.relatedSection
+              }, {
                   $push: {
                     students: student._id
                   }
@@ -153,8 +153,8 @@ router.post("/addexcel", (req, res) => {
   newStudent.save((err, student) => {
     if (err) res.json(err);
     var course = CourseModel.findByIdAndUpdate({
-        _id: req.body.relatedCourse
-      }, {
+      _id: req.body.relatedCourse
+    }, {
         $push: {
           students: newStudent._id
         }
@@ -164,8 +164,8 @@ router.post("/addexcel", (req, res) => {
       }
     );
     var batch = BatchModel.findByIdAndUpdate({
-        _id: req.body.relatedBatch
-      }, {
+      _id: req.body.relatedBatch
+    }, {
         $push: {
           students: newStudent._id
         }
@@ -175,8 +175,8 @@ router.post("/addexcel", (req, res) => {
       }
     );
     var classes = ClassModel.findByIdAndUpdate({
-        _id: req.body.relatedClass
-      }, {
+      _id: req.body.relatedClass
+    }, {
         $push: {
           students: newStudent._id
         }
@@ -186,8 +186,8 @@ router.post("/addexcel", (req, res) => {
       }
     );
     var section = SectionModel.findByIdAndUpdate({
-        _id: req.body.relatedSection
-      }, {
+      _id: req.body.relatedSection
+    }, {
         $push: {
           students: newStudent._id
         }
@@ -202,9 +202,9 @@ router.post("/addexcel", (req, res) => {
 router.post("/active", (req, res) => {
   let relatedSection = req.body.sectionId;
   StudentModel.find({
-      status: "Active",
-      relatedSection
-    })
+    status: "Active",
+    relatedSection
+  })
     .populate("relatedCourse relatedBatch relatedClass relatedSection")
     .exec((err, result) => {
       if (err) res.json(err);
@@ -214,21 +214,36 @@ router.post("/active", (req, res) => {
 router.post("/eliminated", (req, res) => {
   let relatedSection = req.body.sectionId;
   StudentModel.find({
-      status: "Eliminated",
-      relatedSection: relatedSection
-    })
+    status: "Eliminated",
+    relatedSection: relatedSection
+  })
     .populate("relatedCourse relatedBatch relatedClass relatedSection")
     .exec((err, result) => {
       if (err) res.json(err);
       res.json(result);
     });
+})
+
+router.put("/edit/:pid", (req, res) => {
+  // let relatedSection = req.body.sectionId;
+  let status = req.body.status;
+  StudentModel.findByIdAndUpdate(req.params.pid, { status: status }, function (err, user) {
+    if (err) res.json(err);
+
+    let updated = user.toJSON();
+    updated.status = req.body.status;
+
+      res.json(updated);
+  })
+
 });
+
 router.post("/completed", (req, res) => {
   let relatedSection = req.body.sectionId;
   StudentModel.find({
-      status: "Completed",
-      relatedSection: relatedSection
-    })
+    status: "Completed",
+    relatedSection: relatedSection
+  })
     .populate("relatedCourse relatedBatch relatedClass relatedSection")
     .exec((err, result) => {
       if (err) res.json(err);

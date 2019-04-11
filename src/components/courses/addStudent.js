@@ -125,7 +125,7 @@ class AddStudent extends React.Component {
         relatedSection,
         rollNo
       })
-      .then(function(response) {
+      .then(function (response) {
         componentThis.notify();
         // setTimeout(() => {
         //   componentThis.props.history.push(
@@ -133,7 +133,7 @@ class AddStudent extends React.Component {
         //   );
         // }, 2000);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         alert(error);
       });
   };
@@ -203,7 +203,7 @@ class AddStudent extends React.Component {
         relatedSection,
         rollNo
       })
-      .then(function(response) {
+      .then(function (response) {
         if (response.data.errors) {
           let errorMessage = response.data.errors.note.stringValue;
           document.getElementById("errorAlertDiv").style.display = "block";
@@ -234,7 +234,7 @@ class AddStudent extends React.Component {
         //     componentThis.props.history.push(`/${courseName}/${batchName}/${className}/${sectionName}/student`);
         // }, 2000);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         document.getElementById("addBtn").removeAttribute("disabled");
         alert(error);
       });
@@ -359,6 +359,7 @@ class AddStudent extends React.Component {
               <MenuItem value="Active" primaryText="Active" />
               <MenuItem value="Eliminated" primaryText="Eliminated" />
               <MenuItem value="Completed" primaryText="Completed" />
+              <MenuItem value="Blacklist" primaryText="Blacklist" />
             </SelectField>
           </div>
           <div className="row h-100 justify-content-center align-items-center">

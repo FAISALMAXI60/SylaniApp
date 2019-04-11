@@ -1,0 +1,30 @@
+.Eliminated{
+    background-color: pink !important;
+}
+.Blacklist{
+  background-color:red !important;
+  color: white;
+}
+.Completed{
+  background-color: green !important;
+  color: white;
+}
+#form{
+  width:300px;
+  float: left;
+}
+#form2{
+  width:300px;
+  float: left;
+}
+#form3{
+  width:300px;
+  float: left;
+}
+#home,#menu1 {
+  opacity:10;
+}
+#UL,#sel1,#sel2{
+  float: left;
+  width:300px;
+}

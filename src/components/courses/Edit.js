@@ -390,6 +390,7 @@ class Edit extends React.Component {
                             <MenuItem value='Active' primaryText="Active" />
                             <MenuItem value={this.state.object.rollNo ? `Eliminated` : 'Deactivate'} primaryText={this.state.object.rollNo ? `Eliminated` : 'Deactivate'} />
                             <MenuItem value="Completed" primaryText="Completed" />
+                            <MenuItem value="Blacklist" primaryText="Blacklist" />
                         </SelectField>
                     </div>
                     <div className={this.state.teachers.length != 0 ? 'row h-100 justify-content-center align-items-center' : 'd-none'}>
