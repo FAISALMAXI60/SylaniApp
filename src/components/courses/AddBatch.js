@@ -34,23 +34,23 @@ class AddBatch extends React.Component {
         let batchStartDate = e.target.elements[1].value;
         let batchEndDate = e.target.elements[2].value;
         let batchNote = e.target.elements[3].value;
-        let batchTeacher1 = e.target.elements[6].value;
-        let batchTeacher2 = e.target.elements[7].value;
-        let batchTeacher3 = e.target.elements[8].value;
-        let teachers = [batchTeacher1, batchTeacher2, batchTeacher3];
+        // let batchTeacher1 = e.target.elements[6].value;
+        // let batchTeacher2 = e.target.elements[7].value;
+        // let batchTeacher3 = e.target.elements[8].value;
+        // let teachers = [batchTeacher1, batchTeacher2, batchTeacher3];
         let link = `/${courseName}/${batchTitle}/class`;
-        teachers = JSON.stringify(teachers);
+        // teachers = JSON.stringify(teachers);
         let createdAt = new Date().toString();
         let status = this.state.value;
         let relatedCourse = this.state.courseObj._id ? this.state.courseObj._id : 'No Id Found';
-        if (!batchTitle || !batchStartDate || !batchEndDate || !batchTeacher1) {
+        if (!batchTitle || !batchStartDate || !batchEndDate) {
             return document.getElementById("errorAlertDiv").style.display = 'block';
         }
         document.getElementById("errorAlertDiv").style.display = 'none';
         componentThis = this;
         axios.post(`/course/batch/add`, {
             batchTitle, batchStartDate, batchEndDate, link,
-            batchNote, teachers, status, createdAt, relatedCourse
+            batchNote, status, createdAt, relatedCourse
         })
             .then(function (response) {
                 if (response.data.errors) {

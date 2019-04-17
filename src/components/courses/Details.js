@@ -33,10 +33,10 @@ class Details extends React.Component {
   }
   componentDidMount() {
     let object = JSON.parse(this.props.location.name);
-    if (object.teachers) {
-      let teachers = JSON.parse(object.teachers);
-      this.setState(() => ({ teachers }));
-    }
+    // if (object.teachers) {
+    //   let teachers = JSON.parse(object.teachers);
+    //   this.setState(() => ({ teachers }));
+    // }
     if (object.batches) {
       totalBatches = object.batches.length;
       object.batches.map(batch => {
@@ -95,7 +95,7 @@ class Details extends React.Component {
         }
       });
     }
-    this.setState(() => ({ object, studentsData: object.students }));
+    this.setState(() => ({ object, studentsData: object.students || [] }));
   }
   handleChange = obj => (event, value) => {
     let targetValue = event.target.innerText;
@@ -115,7 +115,7 @@ class Details extends React.Component {
           this.state.studentsData.splice(index, 1, response.data);
           this.setState({
             studentsData: this.state.studentsData,
-            allStudents:this.state.studentsData
+            allStudents: this.state.studentsData
           })
 
           this.filterStudents(this.state.currentStudentFilter);
@@ -129,14 +129,14 @@ class Details extends React.Component {
     this.filterStudents(getValue);
 
   }
-  filterStudents=(getValue)=>{
-     // alert(getValue);
-     if (getValue == "All Students") {
+  filterStudents = (getValue) => {
+    // alert(getValue);
+    if (getValue == "All Students") {
       let getAll = this.state.studentsData.filter((item) => {
         return item.name;
       });
       this.setState({
-        currentStudentFilter:getValue,
+        currentStudentFilter: getValue,
         allStudents: getAll
       })
     }
@@ -147,7 +147,7 @@ class Details extends React.Component {
         }
       });
       this.setState({
-        currentStudentFilter:getValue,
+        currentStudentFilter: getValue,
         allStudents: getElim
       });
     }
@@ -158,7 +158,7 @@ class Details extends React.Component {
         }
       });
       this.setState({
-        currentStudentFilter:getValue,
+        currentStudentFilter: getValue,
         allStudents: getAct
       });
     }
@@ -169,7 +169,7 @@ class Details extends React.Component {
         }
       });
       this.setState({
-        currentStudentFilter:getValue,
+        currentStudentFilter: getValue,
         allStudents: getBlack
       });
     }
@@ -180,7 +180,7 @@ class Details extends React.Component {
         }
       });
       this.setState({
-        currentStudentFilter:getValue,
+        currentStudentFilter: getValue,
         allStudents: getCom
       });
     }
@@ -213,7 +213,7 @@ class Details extends React.Component {
           </div>
           <div className="card-footer text-muted" />
         </div>
-        <ul id="UL" className="nav nav-pills">
+        <ul id="UL" className={this.state.object.students ? "nav nav-pills" : "d-none"}>
           <li className="active"><a data-toggle="pill" href="#home">Summary</a></li>
           <li><a data-toggle="pill" href="#menu1">Show Studets</a></li>
         </ul>
