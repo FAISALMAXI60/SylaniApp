@@ -7,7 +7,7 @@ import styles from "../courses/styles";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingScreen from "../loadingScreen";
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import socket from '../../sockets/socket';
 
 
@@ -17,6 +17,10 @@ var className,
   sectionName,
   sectionId,
   attendance = [],
+  elimAtndnc = [],
+  blackAtndnc = [],
+  cmpltAtndnc = [],
+  studntFound = [],
   componentThis,
   rollNoFoundStatus = false,
   tempId = null;
@@ -40,6 +44,12 @@ class AttendanceStudents extends React.Component {
       }
     );
   };
+  notFound = () => {
+    toast.error("Roll No Not Found!", {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 2000
+    });
+  };
   rollNoError = () => {
     toast.error("Incorrect RollNo!", {
       position: toast.POSITION.TOP_CENTER,
@@ -52,8 +62,8 @@ class AttendanceStudents extends React.Component {
       autoClose: 2000
     });
   };
-  notFound = () => {
-    toast.error("Roll Number Not Found!", {
+  eliminated = () => {
+    toast.error("Student is Eliminated!", {
       position: toast.POSITION.TOP_CENTER,
       autoClose: 2000
     });
@@ -66,6 +76,18 @@ class AttendanceStudents extends React.Component {
   };
   dateSelect = () => {
     toast.info("Date Set Successfully", {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 2000
+    });
+  };
+  blacklist = () => {
+    toast.info("Student is in Blacklist", {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 2000
+    });
+  };
+  completed = () => {
+    toast.info("Student Completed", {
       position: toast.POSITION.TOP_CENTER,
       autoClose: 2000
     });
@@ -88,7 +110,7 @@ class AttendanceStudents extends React.Component {
           attendance,
           sectionId
         })
-        .then(function(response) {
+        .then(function (response) {
           document
             .getElementById("attSaveBtn")
             .setAttribute("disabled", "true");
@@ -102,7 +124,7 @@ class AttendanceStudents extends React.Component {
           document.getElementById("attSaveBtn").removeAttribute("disabled");
           self.props.history.push("/attendance/view");
         })
-        .catch(function(error) {
+        .catch(function (error) {
           alert(error);
         });
     } else {
@@ -111,8 +133,8 @@ class AttendanceStudents extends React.Component {
           .post(`/attendance/temporary/remove`, {
             tempId
           })
-          .then(function(response) {})
-          .catch(function(error) {
+          .then(function (response) { })
+          .catch(function (error) {
             alert(error);
           });
       }
@@ -121,7 +143,7 @@ class AttendanceStudents extends React.Component {
           attendance,
           sectionId
         })
-        .then(function(response) {
+        .then(function (response) {
           if (response.data.errors) {
             let errorMessage = response.data.errors.note.stringValue;
             document.getElementById("errorAlertDiv").style.display = "block";
@@ -135,7 +157,7 @@ class AttendanceStudents extends React.Component {
             self.props.history.push("/attendance/view");
           }, 1500);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           alert(error);
         });
     }
@@ -143,11 +165,41 @@ class AttendanceStudents extends React.Component {
     document.getElementById("attSaveBtn").setAttribute("disabled", "true");
   };
   onMarkAttendance = (data) => {
+    console.log(attendance);
     let rollNo = document.getElementById("attendanceRollNo").value || data;
-    if (!rollNo) {
-      this.props.qrAuth && socket.callBackMessage('Incorrect RollNo!');
-      return this.rollNoError();
+    elimAtndnc.filter((Obj) => {
+      if (Obj.rollNo == rollNo) {
+        this.props.qrAuth && socket.callBackMessage('student is Eliminated!');
+        this.eliminated();
+        return Obj;
+      }
+    });
+    blackAtndnc.filter((Obj) => {
+      if (Obj.rollNo == rollNo) {
+        this.props.qrAuth && socket.callBackMessage('student is in Blacklist!');
+        this.blacklist();
+        return Obj;
+      }
+    });
+    cmpltAtndnc.filter((Obj) => {
+      if (Obj.rollNo == rollNo) {
+        this.props.qrAuth && socket.callBackMessage('student Completed!');
+        this.completed();
+        return Obj;
+      }
+    });
+
+    var stFound;
+    stFound = studntFound.filter((o) => {
+      if (rollNo == o.rollNo) {
+        return true;
+      }
+    });
+    if (!stFound.length) {
+      this.props.qrAuth && socket.callBackMessage('RollNo Not Found!');
+      this.notFound();
     }
+
     attendance = attendance.map(Obj => {
       if (Obj.rollNo == rollNo) {
         rollNoFoundStatus = true;
@@ -166,13 +218,14 @@ class AttendanceStudents extends React.Component {
       }
       return Obj;
     });
-    if (rollNoFoundStatus === false) {
-      this.props.qrAuth && socket.callBackMessage('Roll Number Not Found!');
-      this.notFound();
-    }
-    rollNoFoundStatus = false;
-    document.getElementById("attendanceRollNo").value = "";
-    
+
+    // if (rollNoFoundStatus === false) {
+    //   this.props.qrAuth && socket.callBackMessage('Roll Number Not Found!');
+    //   this.notFound();
+    // }
+    // rollNoFoundStatus = false;
+    // document.getElementById("attendanceRollNo").value = "";
+
   };
   temporaryAttendanceHandler = tempAttendance => {
     let date = tempAttendance.attendance[0].date;
@@ -201,7 +254,7 @@ class AttendanceStudents extends React.Component {
       .post(`/attendance/temporary`, {
         sectionId
       })
-      .then(function(response) {
+      .then(function (response) {
         self.setState(() => ({
           tempararyAttendance: response.data
         }));
@@ -213,14 +266,14 @@ class AttendanceStudents extends React.Component {
         //     }
         // });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         alert(error);
       });
     axios
       .post(`/course/batch/class/section/student/active`, {
         sectionId
       })
-      .then(function(response) {
+      .then(function (response) {
         self.setState(() => ({
           dataArray: response.data,
           loading: false
@@ -229,6 +282,7 @@ class AttendanceStudents extends React.Component {
           return {
             rollNo: Obj.rollNo,
             name: Obj.name,
+            status: Obj.status,
             attendanceStatus: "Absent"
           };
         });
@@ -238,7 +292,108 @@ class AttendanceStudents extends React.Component {
             .setAttribute("disabled", "true");
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
+        alert(error);
+      });
+    axios
+      .post(`/course/batch/class/section/student/eliminated`, {
+        sectionId
+      })
+      .then(function (response) {
+        self.setState(() => ({
+          dataArray1: response.data,
+          loading: false
+        }));
+        elimAtndnc = response.data.map(Obj => {
+          return {
+            rollNo: Obj.rollNo,
+            name: Obj.name,
+            status: Obj.status,
+            attendanceStatus: "Absent"
+          };
+        });
+        if (response.data.length === 0) {
+          document
+            .getElementById("attSaveBtn")
+            .setAttribute("disabled", "true");
+        }
+      })
+      .catch(function (error) {
+        alert(error);
+      });
+    axios
+      .post(`/course/batch/class/section/student/blacklist`, {
+        sectionId
+      })
+      .then(function (response) {
+        self.setState(() => ({
+          dataArray2: response.data,
+          loading: false
+        }));
+        blackAtndnc = response.data.map(Obj => {
+          return {
+            rollNo: Obj.rollNo,
+            name: Obj.name,
+            status: Obj.status,
+            attendanceStatus: "Absent"
+          };
+        });
+        if (response.data.length === 0) {
+          document
+            .getElementById("attSaveBtn")
+            .setAttribute("disabled", "true");
+        }
+      })
+      .catch(function (error) {
+        alert(error);
+      });
+    axios
+      .post(`/course/batch/class/section/student/completed`, {
+        sectionId
+      })
+      .then(function (response) {
+        self.setState(() => ({
+          dataArray3: response.data,
+          loading: false
+        }));
+        cmpltAtndnc = response.data.map(Obj => {
+          return {
+            rollNo: Obj.rollNo,
+            name: Obj.name,
+            status: Obj.status,
+            attendanceStatus: "Absent"
+          };
+        });
+        if (response.data.length === 0) {
+          document
+            .getElementById("attSaveBtn")
+            .setAttribute("disabled", "true");
+        }
+      })
+      .catch(function (error) {
+        alert(error);
+      });
+    axios
+      .post(`/course/batch/class/section/student/studentFound`, {
+        sectionId
+      })
+      .then(function (response) {
+        self.setState(() => ({
+          dataArray4: response.data,
+          loading: false
+        }));
+        studntFound = response.data.map(Obj => {
+          return {
+            rollNo: Obj.rollNo
+          };
+        });
+        if (response.data.length === 0) {
+          document
+            .getElementById("attSaveBtn")
+            .setAttribute("disabled", "true");
+        }
+      })
+      .catch(function (error) {
         alert(error);
       });
   }
@@ -304,33 +459,33 @@ class AttendanceStudents extends React.Component {
               </div>{" "}
             </div>
           ) : (
-            <div>
-              {" "}
-              <div className="row h-100 justify-content-center align-items-center">
-                <TextField
-                  floatingLabelText="Enter Roll No To Mark Attendance"
-                  floatingLabelStyle={styles.floatingLabelFocusStyle}
-                  floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-                  type="number"
-                  id="attendanceRollNo"
-                  onKeyPress={e => {
-                    if (e.key === "Enter") {
-                      componentThis.onMarkAttendance();
-                    }
-                  }}
-                />{" "}
-              </div>{" "}
-              <div className="row h-100 justify-content-center align-items-center">
-                <button
-                  type="submit"
-                  className="btn btn-outline-success btn-lg text-center m-5"
-                  onClick={this.onMarkAttendance}
-                >
-                  Mark Attendance{" "}
-                </button>{" "}
-              </div>{" "}
-            </div>
-          )}{" "}
+              <div>
+                {" "}
+                <div className="row h-100 justify-content-center align-items-center">
+                  <TextField
+                    floatingLabelText="Enter Roll No To Mark Attendance"
+                    floatingLabelStyle={styles.floatingLabelFocusStyle}
+                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                    type="number"
+                    id="attendanceRollNo"
+                    onKeyPress={e => {
+                      if (e.key === "Enter") {
+                        componentThis.onMarkAttendance();
+                      }
+                    }}
+                  />{" "}
+                </div>{" "}
+                <div className="row h-100 justify-content-center align-items-center">
+                  <button
+                    type="submit"
+                    className="btn btn-outline-success btn-lg text-center m-5"
+                    onClick={this.onMarkAttendance}
+                  >
+                    Mark Attendance{" "}
+                  </button>{" "}
+                </div>{" "}
+              </div>
+            )}{" "}
         </div>{" "}
         <div className="row h-100 justify-content-center align-items-center">
           <h2 className="m-4 text-center"> Select Attendance Type </h2>{" "}
@@ -364,24 +519,24 @@ class AttendanceStudents extends React.Component {
           {this.state.tempararyAttendance.length === 0 ? (
             <h2 className="text-center"> No Temparary Attendance Record </h2>
           ) : (
-            this.state.tempararyAttendance.map((attendance, i) => {
-              return (
-                <div className="card m-2 d-sm-inline-flex p-2 col-sm-2" key={i}>
-                  <div
-                    className="card-body outerEffect"
-                    onClick={() => this.temporaryAttendanceHandler(attendance)}
-                  >
-                    <h5 className="card-title text-center linksStyle">
-                      {" "}
-                      {attendance.attendance[0].date}{" "}
-                    </h5>{" "}
-                  </div>{" "}
-                </div>
-              );
-            })
-          )}{" "}
+              this.state.tempararyAttendance.map((attendance, i) => {
+                return (
+                  <div className="card m-2 d-sm-inline-flex p-2 col-sm-2" key={i}>
+                    <div
+                      className="card-body outerEffect"
+                      onClick={() => this.temporaryAttendanceHandler(attendance)}
+                    >
+                      <h5 className="card-title text-center linksStyle">
+                        {" "}
+                        {attendance.attendance[0].date}{" "}
+                      </h5>{" "}
+                    </div>{" "}
+                  </div>
+                );
+              })
+            )}{" "}
         </div>{" "}
-        {this.props.qrAuth?componentThis.onMarkAttendance(this.props.qrData):null}
+        {this.props.qrAuth ? componentThis.onMarkAttendance(this.props.qrData) : null}
       </div>
     );
   }

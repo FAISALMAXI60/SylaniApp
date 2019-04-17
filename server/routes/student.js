@@ -223,6 +223,41 @@ router.post("/eliminated", (req, res) => {
       res.json(result);
     });
 })
+router.post("/blacklist", (req, res) => {
+  let relatedSection = req.body.sectionId;
+  StudentModel.find({
+    status: "Blacklist",
+    relatedSection: relatedSection
+  })
+    .populate("relatedCourse relatedBatch relatedClass relatedSection")
+    .exec((err, result) => {
+      if (err) res.json(err);
+      res.json(result);
+    });
+})
+router.post("/studentFound", (req, res) => {
+  let relatedSection = req.body.sectionId;
+  StudentModel.find({
+    relatedSection: relatedSection
+  })
+    .populate("relatedCourse relatedBatch relatedClass relatedSection")
+    .exec((err, result) => {
+      if (err) res.json(err);
+      res.json(result);
+    });
+})
+router.post("/completed", (req, res) => {
+  let relatedSection = req.body.sectionId;
+  StudentModel.find({
+    status: "Completed",
+    relatedSection: relatedSection
+  })
+    .populate("relatedCourse relatedBatch relatedClass relatedSection")
+    .exec((err, result) => {
+      if (err) res.json(err);
+      res.json(result);
+    });
+})
 
 router.put("/edit/:pid", (req, res) => {
   // let relatedSection = req.body.sectionId;
@@ -233,7 +268,7 @@ router.put("/edit/:pid", (req, res) => {
     let updated = user.toJSON();
     updated.status = req.body.status;
 
-      res.json(updated);
+    res.json(updated);
   })
 
 });
