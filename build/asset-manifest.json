@@ -1,16 +1,16 @@
 {
   "main.css": "/static/css/main.8d513cf2.chunk.css",
-  "main.js": "/static/js/main.dfe307d7.chunk.js",
-  "main.js.map": "/static/js/main.dfe307d7.chunk.js.map",
+  "main.js": "/static/js/main.7df44470.chunk.js",
+  "main.js.map": "/static/js/main.7df44470.chunk.js.map",
   "static/css/1.461ee76e.chunk.css": "/static/css/1.461ee76e.chunk.css",
   "static/js/1.15e38071.chunk.js": "/static/js/1.15e38071.chunk.js",
   "static/js/1.15e38071.chunk.js.map": "/static/js/1.15e38071.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.229c360f.js",
   "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
-  "static/css/1.461ee76e.chunk.css.map": "/static/css/1.461ee76e.chunk.css.map",
-  "static/media/Saylani-logo.png": "/static/media/Saylani-logo.c2a52d0a.png",
   "static/css/main.8d513cf2.chunk.css.map": "/static/css/main.8d513cf2.chunk.css.map",
+  "static/media/Saylani-logo.png": "/static/media/Saylani-logo.c2a52d0a.png",
+  "static/css/1.461ee76e.chunk.css.map": "/static/css/1.461ee76e.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.d11b8e0f981e2dda6da37eca94141965.js": "/precache-manifest.d11b8e0f981e2dda6da37eca94141965.js",
+  "precache-manifest.1bed5b18f7e1fed30e25a55297a99d72.js": "/precache-manifest.1bed5b18f7e1fed30e25a55297a99d72.js",
   "service-worker.js": "/service-worker.js"
 }

@@ -312,11 +312,11 @@ class AttendanceStudents extends React.Component {
             attendanceStatus: "Absent"
           };
         });
-        if (response.data.length === 0) {
-          document
-            .getElementById("attSaveBtn")
-            .setAttribute("disabled", "true");
-        }
+        // if (response.data.length === 0) {
+        //   document
+        //     .getElementById("attSaveBtn")
+        //     .setAttribute("disabled", "true");
+        // }
       })
       .catch(function (error) {
         alert(error);
@@ -338,11 +338,11 @@ class AttendanceStudents extends React.Component {
             attendanceStatus: "Absent"
           };
         });
-        if (response.data.length === 0) {
-          document
-            .getElementById("attSaveBtn")
-            .setAttribute("disabled", "true");
-        }
+        // if (response.data.length === 0) {
+        //   document
+        //     .getElementById("attSaveBtn")
+        //     .setAttribute("disabled", "true");
+        // }
       })
       .catch(function (error) {
         alert(error);
@@ -364,11 +364,11 @@ class AttendanceStudents extends React.Component {
             attendanceStatus: "Absent"
           };
         });
-        if (response.data.length === 0) {
-          document
-            .getElementById("attSaveBtn")
-            .setAttribute("disabled", "true");
-        }
+        // if (response.data.length === 0) {
+        //   document
+        //     .getElementById("attSaveBtn")
+        //     .setAttribute("disabled", "true");
+        // }
       })
       .catch(function (error) {
         alert(error);
